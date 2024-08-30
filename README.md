@@ -2,11 +2,13 @@
 
 > 防丢失：[Github](https://github.com/lm379/lm379-alist)  [Gitee](https://gitee.com/lm379/lm379-alist)
 
-本站资源存储在天翼云和Onedrive，都不限速。
+本站资源存储在某国内网盘和Onedrive，都不限速。全站资源约50T，免费共享给大家，如果喜欢的话可以给github项目点个star吧
 
 > Onedrive可能会因为地区问题导致速度偏慢，请自行解决。
 
-网址：[https://pan.lm379.cn](https://pan.lm379.cn) 或 [https://cloud.lm379.cn](https://cloud.lm379.cn)纯ipv6站：[https://ipv6-pan.lm379.cn](https://ipv6-pan.lm379.cn)
+主站：[https://pan.lm379.cn](https://pan.lm379.cn) 或 [https://cloud.lm379.cn](https://cloud.lm379.cn)
+
+纯ipv6站：[https://ipv6-pan.lm379.cn](https://ipv6-pan.lm379.cn)
 
 > 本站采用了境内腾讯云CDN+境外Cloudflare CDN的策略，会根据访客ip自动分流，因此境内用户请勿使用境外公共DNS，建议使用腾讯公共DNS或阿里公共DNS，详情看[这里](https://lm379.cn/2022/10/01/lm379-s-blog/)。
 
@@ -48,6 +50,8 @@ port: 443
 > 上述配置请灵活变通，如https协议头部分软件不需要添加，但是此时需要你勾选https或SSL
 >
 > dav为路径，部分软件也不需要在主机名处加上此选项(如RaiDrive)，只需要在路径处填写dav即可
+>
+> 观影软件挂载路径建议为 **（注意大小写）**：**/dav/Video**
 >
 > 如果你实在不会，可以参考下面的示例
 
