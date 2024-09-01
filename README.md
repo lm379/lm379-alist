@@ -2,7 +2,9 @@
 
 > 防丢失：[Github](https://github.com/lm379/lm379-alist)  [Gitee](https://gitee.com/lm379/lm379-alist)
 
-本站资源存储在某国内网盘和Onedrive，都不限速。全站资源约50T，免费共享给大家，如果喜欢的话可以给github项目点个star吧
+本站资源存储在某国内网盘和Onedrive，都不限速。全站资源约50T，免费共享给大家，如果喜欢的话可以去github点个star或者看一下后面的捐赠吧
+
+您的支持是我更新的动力
 
 > Onedrive可能会因为地区问题导致速度偏慢，请自行解决。
 
@@ -10,7 +12,7 @@
 
 纯ipv6站：[https://ipv6-pan.lm379.cn](https://ipv6-pan.lm379.cn)
 
-> 本站采用了境内腾讯云CDN+境外Cloudflare CDN的策略，会根据访客ip自动分流，因此境内用户请勿使用境外公共DNS，建议使用腾讯公共DNS或阿里公共DNS，详情看[这里](https://lm379.cn/2022/10/01/lm379-s-blog/)。
+> 本站采用了境内腾讯云CDN + 境外Cloudflare CDN的策略，会根据 ip 自动进行分流，因此境内用户请勿使用境外公共DNS，建议使用腾讯公共DNS或阿里公共DNS，详情看[这里](https://lm379.cn/2022/10/01/lm379-s-blog/)。
 
 ## Webdav配置
 
@@ -20,7 +22,7 @@
 
 > webdav账号只开放了读取权限
 >
-> 另外，不支持直接通过Alist内通过Alist V3方式挂载本站，如有需要，请使用webdav
+> 另外，不支持直接通过Alist内通过Alist V3方式挂载本站，如有需要，请使用 webdav
 
 ```yaml
 url: https://pan.lm379.cn/dav/
@@ -94,6 +96,8 @@ pass = cGFXCWMEbQ2t2BPi7zwWPqeAldc0iA
 
 投稿邮箱：<tougao@lm379.cn>
 
+> 注：此邮箱仅用于资源投稿，其余问题一概不回
+
 请不要使用 **百度网盘、夸克网盘、UC网盘、城通网盘、123云盘** 等限速严重的网盘向本人投稿
 
 > 123盘非会员限制 **10G** 流量，这就是不要用123投稿的原因
@@ -105,6 +109,7 @@ pass = cGFXCWMEbQ2t2BPi7zwWPqeAldc0iA
 * BT种子、ED2K链接
 * 天翼云盘
 * 移动云盘
+* 邮件直接发送文件
 
 </details>
 
