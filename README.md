@@ -2,7 +2,7 @@
 
 > 防丢失：[Github](https://github.com/lm379/lm379-alist)  [Gitee](https://gitee.com/lm379/lm379-alist)
 
-本站资源存储在某国内网盘和Onedrive，都不限速。全站资源约50T，免费共享给大家，如果喜欢的话可以去github点个star或者看一下后面的捐赠吧
+本站资源存储在某国内网盘和Onedrive，都不限速。全站资源约50T，免费共享给大家，如果喜欢的话可以去github点个star或者看一下后面的[捐赠](#donate)吧
 
 您的支持是我更新的动力
 
@@ -14,6 +14,7 @@
 
 > 本站采用了境内腾讯云CDN + 境外Cloudflare CDN的策略，会根据 ip 自动进行分流，因此境内用户请勿使用境外公共DNS，建议使用腾讯公共DNS或阿里公共DNS，详情看[这里](https://lm379.cn/2022/10/01/lm379-s-blog/)。
 
+<a id="webdav"></a>
 ## Webdav配置
 
 <details>
@@ -75,11 +76,15 @@ port: 443
 
 <img src="https://r2.lm379.cn/2024/08/9d07c15581d891d668bbf48d8525478f.jpg" style="zoom:25%;" />
 
+#### Reex
+
+<img src="https://image.baidu.com/search/down?url=https://tva1.sinaimg.cn/large/007Dxz4Tgy1hu4xa018z0j30u01uoq5h.jpg" style="zoom:25%;"/>
+
 #### rclone
 
-配置文件
+请参考配置文件
 
-```
+```ini
 [webdav]
 type = webdav
 url = https://pan.lm379.cn/dav
@@ -117,7 +122,7 @@ pass = cGFXCWMEbQ2t2BPi7zwWPqeAldc0iA
 
 <details>
 
-由于天翼云盘分享资源的审核问题，以及Onedrive不支持转存文件，故本站不提供资源分享链接。如果需要转存，请自行请使用Rclone挂载webdav，然后使用Rclone进行转存。
+由于天翼云盘分享资源的审核问题，以及Onedrive不支持转存文件，故本站不提供资源分享链接。如果需要转存，请自行请使用Rclone挂载[webdav](#webdav)，然后使用Rclone进行转存。
 
 > 如何使用Rclone请自行上网搜索。
 
@@ -151,9 +156,13 @@ pass = cGFXCWMEbQ2t2BPi7zwWPqeAldc0iA
 </details>
 
 ## 捐赠
-
+<a id="donate"></a>
 <details>
-<summary>展开图片</summary>
+<summary>展开</summary>
+
+### 爱发电
+[链接](https://ifdian.net/a/lm379)   
+### 支付宝
 <pre>
 <img src="https://r2.lm379.cn/2024/04/f597f96be857f5d530a787c8b81731da.jpg" alt="支付宝" style="zoom: 33%;" />
 </pre>
