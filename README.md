@@ -12,7 +12,7 @@
 
 纯ipv6站：[https://ipv6-pan.lm379.cn](https://ipv6-pan.lm379.cn)
 
-> 本站采用了境内腾讯云CDN + 境外Cloudflare CDN的策略，会根据 ip 自动进行分流，因此境内用户请勿使用境外公共DNS，建议使用腾讯公共DNS或阿里公共DNS，详情看[这里](https://lm379.cn/2022/10/01/lm379-s-blog/)。
+> 本站采用了境内腾讯云CDN/多吉云CDN + 境外Cloudflare CDN的策略，会根据 IP 自动进行分流，境内使用境外公共DNS会分流到Cloudflare，因此境内用户请勿使用境外DNS，建议使用腾讯公共DNS或阿里公共DNS，详情看[这里](https://lm379.cn/2022/10/01/lm379-s-blog/)。
 
 <a id="webdav"></a>
 ## Webdav配置
@@ -144,6 +144,16 @@ pass = cGFXCWMEbQ2t2BPi7zwWPqeAldc0iA
 <details>
 <!-- <summary>展开更新日志</summary> -->
 
+### 2024.11.4
+
+同步更新alist至v3.39.1
+
+### 2024.10.14
+
+更换IP查询API
+
+> 感谢[VORE-API](https://api.vore.top/)免费提供IP查询接口
+
 ### 2024.8.13
 
 上线纯ipv6站
@@ -170,4 +180,19 @@ pass = cGFXCWMEbQ2t2BPi7zwWPqeAldc0iA
 <pre>
 <img src="https://r2.lm379.cn/2024/04/f597f96be857f5d530a787c8b81731da.jpg" alt="支付宝" style="zoom: 33%;" />
 </pre>
+</details>
+
+
+## 鸣谢
+
+<details>
+
+本站CDN由[腾讯云](https://cloud.tencent.com/)、[多吉云](https://www.dogecloud.com/)、[Cloudflare](https://www.cloudflare.com)提供
+
+静态文件存储由 Cloudflare R2 和 多吉云存储 免费提供
+
+静态文件加速由 [多吉云](https://www.dogecloud.com/) 和 [Jsdmirror](https://www.jsdmirror.com/) 免费提供
+
+IP查询API由 [VORE-API](https://api.vore.top/) 免费提供
+
 </details>
