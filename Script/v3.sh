@@ -39,7 +39,7 @@ fi
 #######################
 # GitHub 相关配置
 GH_PROXY='https://gh.w12.top/'  # 可以修改为其他代理地址，如果不需要代理可以设置为空
-GH_DOWNLOAD_URL="${GH_PROXY}https://github.com/alist-org/alist/releases/latest/download"
+GH_DOWNLOAD_URL="${GH_PROXY}https://github.com/alistgo/alist/releases/latest/download"
 #######################
 
 # 颜色配置
