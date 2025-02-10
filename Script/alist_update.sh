@@ -8,6 +8,10 @@ if ! command -v curl >/dev/null 2>&1; then
     handle_error 1 "未找到 curl 命令，请先安装"
 fi
 
+if ! command -v jq >/dev/null 2>&1; then
+    handle_error 1 "未找到 jq 命令，请先安装"
+fi
+
 # 获取当前安装的 alist 版本
 CURRENT_VERSION=$(/opt/alist/alist version | grep -oP 'Version: \Kv[0-9]+\.[0-9]+\.[0-9]+')
 echo "当前安装的 alist 版本: $CURRENT_VERSION"
