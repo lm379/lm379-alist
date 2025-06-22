@@ -1,27 +1,23 @@
-# 亿苯正经的Alist库
+# 亿苯正经的OpenList库
 
 > 防丢失：[Github](https://github.com/lm379/lm379-alist)  [Gitee](https://gitee.com/lm379/lm379-alist)
 
 本站资源存储在某国内网盘，不限速。全站资源约10T，免费共享给大家，如果喜欢的话可以去Github点个star或者看一下后面的[捐赠](#donate)吧
 
-> 由于Onedrive被封禁，存储在其他网盘上的资源无法通过AList共享，故全站资源被迫缩减至10T
+> 由于Onedrive被封禁，存储在其他网盘上的资源无法通过OpenList共享，故全站资源被迫缩减至10T
 
 您的支持是我更新的动力
 
-<!-- > Onedrive可能会因为地区问题导致速度偏慢，请自行解决。 -->
 
 主站：[https://pan.lm379.cn](https://pan.lm379.cn) 或 [https://cloud.lm379.cn](https://cloud.lm379.cn)
 
-<!-- 纯ipv6站：[https://ipv6-pan.lm379.cn](https://ipv6-pan.lm379.cn) -->
 
-<!-- > 本站采用了境内腾讯云CDN/多吉云CDN + 境外Cloudflare CDN的策略，会根据 IP 自动进行分流，境内使用境外公共DNS会分流到Cloudflare，因此境内用户请勿使用境外DNS，建议使用腾讯公共DNS或阿里公共DNS，详情看[这里](https://lm379.cn/2022/10/01/lm379-s-blog/)。 -->
+* 本站 CDN 现已切换到 Edgeone 免费版，启用了境内加速，现访问速度已经起飞~
+* 鉴于部分人直接将本站拿去刷 PCDN 下行流量，或请求次数过于频繁，导致本人多次在半夜收到欠费通知，这对个人站点来说是不可接受的，**且本站除置顶几位股东的捐赠外无任何收入**
+* 若访问过于频繁会自动触发人机验证或临时拉入黑名单，可能会导致webdav无法使用，直接访问网页不受影响
 
-* 本站使用的腾讯云/多吉云CDN等国内加速多次被刷爆，目前已经切入Cloudflare，速度会有所下降
-* 甚至部分人直接将本站拿去刷PCDN，或请求次数过于频繁，这对个人站点来说是不可接受的，目前已经开启人机验证，可能会导致webdav无法使用，直接访问网页不受影响
 
-> 阿里云CDN不支持Webdav需要的PROFOUND请求，阿里云/腾讯云安全加速过于昂贵，且本人多次在半夜收到云厂商发来的CDN账单，所以只能切入免费的cloudflare
-
-`<a id="webdav"></a>`
+<a id="webdav"></a>
 
 ## Webdav配置
 
@@ -30,8 +26,8 @@
 **本站目前开放了公共webdav，账号密码如下**
 
 > webdav账号只开放了读取权限
->
-> 另外，不支持直接通过Alist内通过Alist V3方式挂载本站，如有需要，请使用 webdav
+
+> 另外，**不支持也不会开放** 直接通过 Openlist 内通过 Openlist V3方式挂载本站，如有需要，请使用 `webdav`
 
 ```yaml
 url: https://pan.lm379.cn/dav/
@@ -50,11 +46,11 @@ port: 443
 ```
 
 > 上述配置请灵活变通，如https协议头部分软件不需要添加，但是此时需要你勾选https或SSL
->
+
 > dav为路径，部分软件也不需要在主机名处加上此选项(如RaiDrive)，只需要在路径处填写dav即可
->
+
 > 观影软件挂载路径建议为 **（注意大小写）**：**/dav/Video**
->
+
 > 如果你实在不会，可以参考下面的示例
 
 ### 部分软件Webdav挂载示例
@@ -71,7 +67,7 @@ port: 443
 
 <img src="https://r2.lm379.cn/2024/07/3975193eebb871014c8a4c5affb62627.png" style="zoom:50%;" />
 
-#### Filmly
+#### Filmly/网易爆米花
 
 <img src="https://r2.lm379.cn/2024/08/9d07c15581d891d668bbf48d8525478f.jpg" style="zoom:25%;" />
 
@@ -144,6 +140,10 @@ pass = cGFXCWMEbQ2t2BPi7zwWPqeAldc0iA
 <details>
 <!-- <summary>展开更新日志</summary> -->
 
+### 2025.6.22
+替换 AList 为 [OpenList](https://github.com/OpenListTeam/OpenList)   
+替换 cloudflare 为 腾讯云Edgeone
+
 ### 2025.3.17
 
 更新说明文档
@@ -176,7 +176,7 @@ pass = cGFXCWMEbQ2t2BPi7zwWPqeAldc0iA
 
 ## 捐赠
 
-`<a id="donate"></a>`
+<a id="donate"></a>
 
 <details>
 <summary>展开</summary>
@@ -197,7 +197,8 @@ pass = cGFXCWMEbQ2t2BPi7zwWPqeAldc0iA
 
 <details>
 
-本站CDN由[Cloudflare](https://www.cloudflare.com)提供
+本站CDN由 [Edgeone](https://edgeone.ai) 免费提供   
+> I ❤️ Edgeone
 
 静态文件存储由 Cloudflare R2 和 多吉云存储 免费提供
 

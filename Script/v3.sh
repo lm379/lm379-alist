@@ -1,13 +1,13 @@
 #!/bin/bash
 ###############################################################################
 #
-# Alist Manager Script
+# OpenList Manager Script
 #
 # Version: 1.0.0
 # Last Updated: 2024-12-24
 #
 # Description: 
-#   A management script for Alist (https://alist.nn.ci)
+#   A management script for OpenList (https://github.com/OpenListTeam/OpenList)
 #   Provides installation, update, uninstallation and management functions
 #
 # Requirements:
@@ -39,7 +39,7 @@ fi
 #######################
 # GitHub 相关配置
 GH_PROXY='https://gh.w12.top/'  # 可以修改为其他代理地址，如果不需要代理可以设置为空
-GH_DOWNLOAD_URL="${GH_PROXY}https://github.com/alistgo/alist/releases/latest/download"
+GH_DOWNLOAD_URL="${GH_PROXY}https://github.com/openlistteam/openlist/releases/latest/download"
 #######################
 
 # 颜色配置
@@ -48,28 +48,28 @@ GREEN_COLOR='\e[1;32m'
 YELLOW_COLOR='\e[1;33m'
 RES='\e[0m'
 
-# 添加一个函数来获取已安装的 Alist 路径
+# 添加一个函数来获取已安装的 OpenList 路径
 GET_INSTALLED_PATH() {
     # 从 service 文件中获取工作目录
-    if [ -f "/etc/systemd/system/alist.service" ]; then
-        installed_path=$(grep "WorkingDirectory=" /etc/systemd/system/alist.service | cut -d'=' -f2)
-        if [ -f "$installed_path/alist" ]; then
+    if [ -f "/etc/systemd/system/openlist.service" ]; then
+        installed_path=$(grep "WorkingDirectory=" /etc/systemd/system/openlist.service | cut -d'=' -f2)
+        if [ -f "$installed_path/openlist" ]; then
             echo "$installed_path"
             return 0
         fi
     fi
     
     # 如果未找到或路径无效，返回默认路径
-    echo "/opt/alist"
+    echo "/opt/openlist"
 }
 
 # 设置安装路径
 if [ ! -n "$2" ]; then
-    INSTALL_PATH='/opt/alist'
+    INSTALL_PATH='/opt/openlist'
 else
     INSTALL_PATH=${2%/}
-    if ! [[ $INSTALL_PATH == */alist ]]; then
-        INSTALL_PATH="$INSTALL_PATH/alist"
+    if ! [[ $INSTALL_PATH == */openlist ]]; then
+        INSTALL_PATH="$INSTALL_PATH/openlist"
     fi
     
     # 创建父目录（如果不存在）
@@ -136,7 +136,7 @@ CHECK() {
   fi
 
   # 检查是否已安装
-  if [ -f "$INSTALL_PATH/alist" ]; then
+  if [ -f "$INSTALL_PATH/openlist" ]; then
     echo "此位置已经安装，请选择其他位置，或使用更新命令"
     exit 0
   fi
@@ -190,28 +190,28 @@ INSTALL() {
   # 保存当前目录
   CURRENT_DIR=$(pwd)
   
-  # 下载 Alist 程序
-  echo -e "\r\n${GREEN_COLOR}下载 Alist ...${RES}"
-  
-  # 使用 GitHub 源下载
-  if ! download_file "${GH_DOWNLOAD_URL}/alist-linux-musl-$ARCH.tar.gz" "/tmp/alist.tar.gz"; then
+  # 下载 OpenList 程序
+  echo -e "\r\n${GREEN_COLOR}下载 OpenList ...${RES}"
+
+  # 使用拼接后的 GitHub 下载地址
+  if ! download_file "${GH_DOWNLOAD_URL}/openlist-linux-musl-$ARCH.tar.gz" "/tmp/openlist.tar.gz"; then
     echo -e "${RED_COLOR}下载失败！${RES}"
     exit 1
   fi
 
   # 解压文件
-  if ! tar zxf /tmp/alist.tar.gz -C $INSTALL_PATH/; then
+  if ! tar zxf /tmp/openlist.tar.gz -C $INSTALL_PATH/; then
     echo -e "${RED_COLOR}解压失败！${RES}"
-    rm -f /tmp/alist.tar.gz
+    rm -f /tmp/openlist.tar.gz
     exit 1
   fi
 
-  if [ -f $INSTALL_PATH/alist ]; then
+  if [ -f $INSTALL_PATH/openlist ]; then
     echo -e "${GREEN_COLOR}下载成功，正在安装...${RES}"
     
     # 获取初始账号密码（临时切换目录）
     cd $INSTALL_PATH
-    ACCOUNT_INFO=$($INSTALL_PATH/alist admin random 2>&1)
+    ACCOUNT_INFO=$($INSTALL_PATH/openlist admin random 2>&1)
     ADMIN_USER=$(echo "$ACCOUNT_INFO" | grep "username:" | sed 's/.*username://')
     ADMIN_PASS=$(echo "$ACCOUNT_INFO" | grep "password:" | sed 's/.*password://')
     # 切回原目录
@@ -224,26 +224,27 @@ INSTALL() {
   fi
 
   # 清理临时文件
-  rm -f /tmp/alist*
+  rm -f /tmp/openlist*
 }
 
+
 INIT() {
-  if [ ! -f "$INSTALL_PATH/alist" ]; then
-    echo -e "\r\n${RED_COLOR}出错了${RES}，当前系统未安装 Alist\r\n"
+  if [ ! -f "$INSTALL_PATH/openlist" ]; then
+    echo -e "\r\n${RED_COLOR}出错了${RES}，当前系统未安装 OpenList\r\n"
     exit 1
   fi
 
   # 创建 systemd 服务文件
-  cat >/etc/systemd/system/alist.service <<EOF
+  cat >/etc/systemd/system/openlist.service <<EOF
 [Unit]
-Description=Alist service
+Description=OpenList service
 Wants=network.target
 After=network.target network.service
 
 [Service]
 Type=simple
 WorkingDirectory=$INSTALL_PATH
-ExecStart=$INSTALL_PATH/alist server
+ExecStart=$INSTALL_PATH/openlist server
 KillMode=process
 
 [Install]
@@ -251,7 +252,7 @@ WantedBy=multi-user.target
 EOF
 
   systemctl daemon-reload
-  systemctl enable alist >/dev/null 2>&1
+  systemctl enable openlist >/dev/null 2>&1
 }
 
 SUCCESS() {
@@ -268,7 +269,7 @@ SUCCESS() {
   PUBLIC_IP=$(curl -s4 ip.sb || curl -s4 ifconfig.me || echo "获取失败")
   
   echo -e "┌────────────────────────────────────────────────────┐"
-  print_line "Alist 安装成功！"
+  print_line "OpenList 安装成功！"
   print_line ""
   print_line "访问地址："
   print_line "  局域网：http://${LOCAL_IP}:5244/"
@@ -284,12 +285,12 @@ SUCCESS() {
   
   # 安装命令行工具
   if ! INSTALL_CLI; then
-    echo -e "${YELLOW_COLOR}警告：命令行工具安装失败，但不影响 Alist 的使用${RES}"
+    echo -e "${YELLOW_COLOR}警告：命令行工具安装失败，但不影响 OpenList 的使用${RES}"
   fi
   
   echo -e "\n${GREEN_COLOR}启动服务中...${RES}"
-  systemctl restart alist
-  echo -e "管理: 在任意目录输入 ${GREEN_COLOR}alist${RES} 打开管理菜单"
+  systemctl restart openlist
+  echo -e "管理: 在任意目录输入 ${GREEN_COLOR}openlist${RES} 打开管理菜单"
   
   echo -e "\n${YELLOW_COLOR}温馨提示：如果端口无法访问，请检查服务器安全组、防火墙和服务状态${RES}"
   echo
@@ -297,82 +298,82 @@ SUCCESS() {
 }
 
 UPDATE() {
-    if [ ! -f "$INSTALL_PATH/alist" ]; then
-        echo -e "\r\n${RED_COLOR}错误：未在 $INSTALL_PATH 找到 Alist${RES}\r\n"
+    if [ ! -f "$INSTALL_PATH/openlist" ]; then
+        echo -e "\r\n${RED_COLOR}错误：未在 $INSTALL_PATH 找到 OpenList${RES}\r\n"
         exit 1
     fi
 
-    echo -e "${GREEN_COLOR}开始更新 Alist ...${RES}"
+    echo -e "${GREEN_COLOR}开始更新 OpenList ...${RES}"
 
-    # 停止 Alist 服务
-    echo -e "${GREEN_COLOR}停止 Alist 进程${RES}\r\n"
-    systemctl stop alist
+    # 停止 OpenList 服务
+    echo -e "${GREEN_COLOR}停止 OpenList 进程${RES}\r\n"
+    systemctl stop openlist
 
     # 备份二件
-    cp $INSTALL_PATH/alist /tmp/alist.bak
+    cp $INSTALL_PATH/openlist /tmp/openlist.bak
 
     # 下载新版本
-    echo -e "${GREEN_COLOR}下载 Alist ...${RES}"
-    if ! download_file "${GH_DOWNLOAD_URL}/alist-linux-musl-$ARCH.tar.gz" "/tmp/alist.tar.gz"; then
+    echo -e "${GREEN_COLOR}下载 OpenList ...${RES}"
+    if ! download_file "${GH_DOWNLOAD_URL}/openlist-linux-musl-$ARCH.tar.gz" "/tmp/openlist.tar.gz"; then
         echo -e "${RED_COLOR}下载失败，更新终止${RES}"
         echo -e "${GREEN_COLOR}正在恢复之前的版本...${RES}"
-        mv /tmp/alist.bak $INSTALL_PATH/alist
-        systemctl start alist
+        mv /tmp/openlist.bak $INSTALL_PATH/openlist
+        systemctl start openlist
         exit 1
     fi
 
     # 解压文件
-    if ! tar zxf /tmp/alist.tar.gz -C $INSTALL_PATH/; then
+    if ! tar zxf /tmp/openlist.tar.gz -C $INSTALL_PATH/; then
         echo -e "${RED_COLOR}解压失败，更新终止${RES}"
         echo -e "${GREEN_COLOR}正在恢复之前的版本...${RES}"
-        mv /tmp/alist.bak $INSTALL_PATH/alist
-        systemctl start alist
-        rm -f /tmp/alist.tar.gz
+        mv /tmp/openlist.bak $INSTALL_PATH/openlist
+        systemctl start openlist
+        rm -f /tmp/openlist.tar.gz
         exit 1
     fi
 
     # 验证更新是否成功
-    if [ -f $INSTALL_PATH/alist ]; then
+    if [ -f $INSTALL_PATH/openlist ]; then
         echo -e "${GREEN_COLOR}下载成功，正在更新${RES}"
     else
         echo -e "${RED_COLOR}更新失败！${RES}"
         echo -e "${GREEN_COLOR}正在恢复之前的版本...${RES}"
-        mv /tmp/alist.bak $INSTALL_PATH/alist
-        systemctl start alist
-        rm -f /tmp/alist.tar.gz
+        mv /tmp/openlist.bak $INSTALL_PATH/openlist
+        systemctl start openlist
+        rm -f /tmp/openlist.tar.gz
         exit 1
     fi
 
     # 清理临时文件
-    rm -f /tmp/alist.tar.gz /tmp/alist.bak
+    rm -f /tmp/openlist.tar.gz /tmp/openlist.bak
 
-    # 重启 Alist 服务
-    echo -e "${GREEN_COLOR}启动 Alist 进程${RES}\r\n"
-    systemctl restart alist
+    # 重启 OpenList 服务
+    echo -e "${GREEN_COLOR}启动 OpenList 进程${RES}\r\n"
+    systemctl restart openlist
 
     echo -e "${GREEN_COLOR}更新完成！${RES}"
 }
 
 UNINSTALL() {
-    if [ ! -f "$INSTALL_PATH/alist" ]; then
-        echo -e "\r\n${RED_COLOR}错误：未在 $INSTALL_PATH 找到 Alist${RES}\r\n"
+    if [ ! -f "$INSTALL_PATH/openlist" ]; then
+        echo -e "\r\n${RED_COLOR}错误：未在 $INSTALL_PATH 找到 OpenList${RES}\r\n"
         exit 1
     fi
     
-    echo -e "${RED_COLOR}警告：卸载后将删除本地 Alist 目录、数据库文件及命令行工具！${RES}"
+    echo -e "${RED_COLOR}警告：卸载后将删除本地 OpenList 目录、数据库文件及命令行工具！${RES}"
     read -p "是否确认卸载？[Y/n]: " choice
     
     case "${choice:-y}" in
         [yY]|"")
             echo -e "${GREEN_COLOR}开始卸载...${RES}"
             
-            echo -e "${GREEN_COLOR}停止 Alist 进程${RES}"
-            systemctl stop alist
-            systemctl disable alist
+            echo -e "${GREEN_COLOR}停止 OpenList 进程${RES}"
+            systemctl stop openlist
+            systemctl disable openlist
             
-            echo -e "${GREEN_COLOR}删除 Alist 文件${RES}"
+            echo -e "${GREEN_COLOR}删除 OpenList 文件${RES}"
             rm -rf $INSTALL_PATH
-            rm -f /etc/systemd/system/alist.service
+            rm -f /etc/systemd/system/openlist.service
             systemctl daemon-reload
             
             # 删除管理脚本和命令链接
@@ -385,7 +386,7 @@ UNINSTALL() {
                 }
             fi
             
-            echo -e "${GREEN_COLOR}Alist 已完全卸载${RES}"
+            echo -e "${GREEN_COLOR}OpenList 已完全卸载${RES}"
             ;;
         *)
             echo -e "${GREEN_COLOR}已取消卸载${RES}"
@@ -394,8 +395,8 @@ UNINSTALL() {
 }
 
 RESET_PASSWORD() {
-    if [ ! -f "$INSTALL_PATH/alist" ]; then
-        echo -e "\r\n${RED_COLOR}错误：系统未安装 Alist，请先安装！${RES}\r\n"
+    if [ ! -f "$INSTALL_PATH/openlist" ]; then
+        echo -e "\r\n${RED_COLOR}错误：系统未安装 OpenList，请先安装！${RES}\r\n"
         exit 1
     fi
 
@@ -406,14 +407,14 @@ RESET_PASSWORD() {
     echo
     read -p "请输入选项 [0-2]: " choice
 
-    # 切换到 Alist 目录
+    # 切换到 OpenList 目录
     cd $INSTALL_PATH
 
     case "$choice" in
         1)
             echo -e "${GREEN_COLOR}正在生成随机密码...${RES}"
             echo -e "\n${GREEN_COLOR}账号信息：${RES}"
-            ./alist admin random 2>&1 | grep -E "username:|password:" | sed 's/.*username:/账号: /' | sed 's/.*password:/密码: /'
+            ./openlist admin random 2>&1 | grep -E "username:|password:" | sed 's/.*username:/账号: /' | sed 's/.*password:/密码: /'
             exit 0
             ;;
         2)
@@ -424,7 +425,7 @@ RESET_PASSWORD() {
             fi
             echo -e "${GREEN_COLOR}正在设置新密码...${RES}"
             echo -e "\n${GREEN_COLOR}账号信息：${RES}"
-            ./alist admin set "$new_password" 2>&1 | grep -E "username:|password:" | sed 's/.*username:/账号: /' | sed 's/.*password:/密码: /'
+            ./openlist admin set "$new_password" 2>&1 | grep -E "username:|password:" | sed 's/.*username:/账号: /' | sed 's/.*password:/密码: /'
             exit 0
             ;;
         0)
@@ -438,8 +439,8 @@ RESET_PASSWORD() {
 }
 
 # 在文件开头添加管理脚本路径配置
-MANAGER_PATH="/usr/local/sbin/alist-manager"  # 管理脚本存放路径
-COMMAND_LINK="/usr/local/bin/alist"          # 命令软链接路径
+MANAGER_PATH="/usr/local/sbin/openlist-manager"  # 管理脚本存放路径
+COMMAND_LINK="/usr/local/bin/openlist"          # 命令软链接路径
 
 # 修改 INSTALL_CLI() 函数
 INSTALL_CLI() {
@@ -503,8 +504,8 @@ INSTALL_CLI() {
     
     echo -e "${GREEN_COLOR}命令行工具安装成功！${RES}"
     echo -e "\n现在你可以使用以下命令："
-    echo -e "1. ${GREEN_COLOR}alist${RES}          - 快捷命令"
-    echo -e "2. ${GREEN_COLOR}alist-manager${RES}  - 完整命令"
+    echo -e "1. ${GREEN_COLOR}openlist${RES}          - 快捷命令"
+    echo -e "2. ${GREEN_COLOR}openlist-manager${RES}  - 完整命令"
     return 0
 }
 
@@ -512,17 +513,17 @@ SHOW_MENU() {
   # 获取实际安装路径
   INSTALL_PATH=$(GET_INSTALLED_PATH)
 
-  echo -e "\n欢迎使用 Alist 管理脚本\n"
-  echo -e "${GREEN_COLOR}1、安装 Alist${RES}"
-  echo -e "${GREEN_COLOR}2、更新 Alist${RES}"
-  echo -e "${GREEN_COLOR}3、卸载 Alist${RES}"
+  echo -e "\n欢迎使用 OpenList 管理脚本\n"
+  echo -e "${GREEN_COLOR}1、安装 OpenList${RES}"
+  echo -e "${GREEN_COLOR}2、更新 OpenList${RES}"
+  echo -e "${GREEN_COLOR}3、卸载 OpenList${RES}"
   echo -e "${GREEN_COLOR}-------------------${RES}"
   echo -e "${GREEN_COLOR}4、查看状态${RES}"
   echo -e "${GREEN_COLOR}5、重置密码${RES}"
   echo -e "${GREEN_COLOR}-------------------${RES}"
-  echo -e "${GREEN_COLOR}6、启动 Alist${RES}"
-  echo -e "${GREEN_COLOR}7、停止 Alist${RES}"
-  echo -e "${GREEN_COLOR}8、重启 Alist${RES}"
+  echo -e "${GREEN_COLOR}6、启动 OpenList${RES}"
+  echo -e "${GREEN_COLOR}7、停止 OpenList${RES}"
+  echo -e "${GREEN_COLOR}8、重启 OpenList${RES}"
   echo -e "${GREEN_COLOR}-------------------${RES}"
   echo -e "${GREEN_COLOR}0、退出脚本${RES}"
   echo
@@ -531,7 +532,7 @@ SHOW_MENU() {
   case "$choice" in
     1)
       # 安装时重置为默认路径
-      INSTALL_PATH='/opt/alist'
+      INSTALL_PATH='/opt/openlist'
       CHECK
       INSTALL
       INIT
@@ -547,15 +548,15 @@ SHOW_MENU() {
       exit 0
       ;;
     4)
-      if [ ! -f "$INSTALL_PATH/alist" ]; then
-        echo -e "\r\n${RED_COLOR}错误：系统未安装 Alist，请先安装！${RES}\r\n"
+      if [ ! -f "$INSTALL_PATH/openlist" ]; then
+        echo -e "\r\n${RED_COLOR}错误：系统未安装 OpenList，请先安装！${RES}\r\n"
         return 1
       fi
       # 检查服务状态
-      if systemctl is-active alist >/dev/null 2>&1; then
-        echo -e "${GREEN_COLOR}Alist 当前状态为：运行中${RES}"
+      if systemctl is-active openlist >/dev/null 2>&1; then
+        echo -e "${GREEN_COLOR}OpenList 当前状态为：运行中${RES}"
       else
-        echo -e "${RED_COLOR}Alist 当前状态为：停止${RES}"
+        echo -e "${RED_COLOR}OpenList 当前状态为：停止${RES}"
       fi
       return 0
       ;;
@@ -564,30 +565,30 @@ SHOW_MENU() {
       return 0
       ;;
     6)
-      if [ ! -f "$INSTALL_PATH/alist" ]; then
-        echo -e "\r\n${RED_COLOR}错误：系统未安装 Alist，请先安装！${RES}\r\n"
+      if [ ! -f "$INSTALL_PATH/openlist" ]; then
+        echo -e "\r\n${RED_COLOR}错误：系统未安装 OpenList，请先安装！${RES}\r\n"
         return 1
       fi
-      systemctl start alist
-      echo -e "${GREEN_COLOR}Alist 已启动${RES}"
+      systemctl start openlist
+      echo -e "${GREEN_COLOR}OpenList 已启动${RES}"
       return 0
       ;;
     7)
-      if [ ! -f "$INSTALL_PATH/alist" ]; then
-        echo -e "\r\n${RED_COLOR}错误：系统未安装 Alist，请先安装！${RES}\r\n"
+      if [ ! -f "$INSTALL_PATH/openlist" ]; then
+        echo -e "\r\n${RED_COLOR}错误：系统未安装 OpenList，请先安装！${RES}\r\n"
         return 1
       fi
-      systemctl stop alist
-      echo -e "${GREEN_COLOR}Alist 已停止${RES}"
+      systemctl stop openlist
+      echo -e "${GREEN_COLOR}OpenList 已停止${RES}"
       return 0
       ;;
     8)
-      if [ ! -f "$INSTALL_PATH/alist" ]; then
-        echo -e "\r\n${RED_COLOR}错误：系统未安装 Alist，请先安装！${RES}\r\n"
+      if [ ! -f "$INSTALL_PATH/openlist" ]; then
+        echo -e "\r\n${RED_COLOR}错误：系统未安装 OpenList，请先安装！${RES}\r\n"
         return 1
       fi
-      systemctl restart alist
-      echo -e "${GREEN_COLOR}Alist 已重启${RES}"
+      systemctl restart openlist
+      echo -e "${GREEN_COLOR}OpenList 已重启${RES}"
       return 0
       ;;
     0)
@@ -634,8 +635,8 @@ elif [ "$1" = "uninstall" ]; then
   UNINSTALL
 else
   echo -e "${RED_COLOR}错误的命令${RES}"
-  echo -e "用法: $0 install [安装路径]    # 安装 Alist"
-  echo -e "     $0 update              # 更新 Alist"
-  echo -e "     $0 uninstall          # 卸载 Alist"
+  echo -e "用法: $0 install [安装路径]    # 安装 OpenList"
+  echo -e "     $0 update              # 更新 OpenList"
+  echo -e "     $0 uninstall          # 卸载 OpenList"
   echo -e "     $0                    # 显示交互菜单"
 fi
